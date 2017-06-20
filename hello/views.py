@@ -3,8 +3,11 @@ from django.http import HttpResponse
 
 from .models import Greeting
 
-# Create your views here.
-def index(request):
+class SingletonTelegramBot:
+
+  singleton_bot = None
+
+  def __init__(self):
     import sys
     import time
     import telepot
@@ -23,10 +26,16 @@ def index(request):
     MessageLoop(bot, handle).run_as_thread()
     print ('Listening ...')
 
-    # Keep the program running.
-    # while 1:
-    #     time.sleep(10)
-    return render(request, 'index.html')
+  @classmethod
+  def init_bot(self):
+    if not self.singleton_bot:
+      self.singleton_bot = SingletonTelegramBot()
+    return self.singleton_bot
+
+# Create your views here.
+def index(request):
+  SingletonTelegramBot.init_bot()
+  return render(request, 'index.html')
 
 
 def db(request):
