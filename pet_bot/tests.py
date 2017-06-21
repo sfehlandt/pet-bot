@@ -6,11 +6,12 @@ class PetModelTestCase(TestCase):
 
     def setUp(self):
         self.pet_data = {
-            'name'     : 'My Kitten',
+            'name'     : 'Smelly',
+            'species'  : 'Cat',
             'owner'    : 'Owned',
             'credits'  : 300,
             'status'   : 0,
-            'happiness': 0
+            'happiness': 0,
         }
 
     def test_model_create_pet(self):
