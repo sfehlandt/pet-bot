@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from enum import Enum
 
 # Create your models here.
 NAME_VERBOSE      = 'nombre'
@@ -42,6 +43,16 @@ class Task(models.Model):
        verbose_name = 'Tarea'
        verbose_name_plural = 'Tareas'
 
+    DONE     = 0
+    PENDING  = 1
+    DOING    = 2
+
+    STATUS_CHOICES = (
+        (DONE,    'Terminada'),
+        (PENDING, 'Pendiente'),
+        (DOING,   'En progreso'),
+    )
+
     name = models.CharField(max_length=30, verbose_name=NAME_VERBOSE)
 
     description = models.CharField(max_length=255, verbose_name=DESCRIPTION_VERBOSE)
@@ -50,10 +61,21 @@ class Task(models.Model):
 
     credits = models.IntegerField(default=0, verbose_name=CREDITS_VERBOSE)
 
-    status = models.IntegerField(default=0, verbose_name=STATUS_VERBOSE)
+    status = models.IntegerField(default=PENDING, choices=STATUS_CHOICES, verbose_name=STATUS_VERBOSE)
 
     deadline = models.DateTimeField(verbose_name=DEADLINE_VERBOSE)
 
-
     def __str__(self):
         return self.name
+
+    def mark_as_doing(self):
+        self.status = Task.DOING
+        self.save()
+
+    def mark_as_done(self):
+        self.status = Task.DONE
+        self.save()
+
+    def mark_as_pending(self):
+        self.status = Task.PENDING
+        self.save()
