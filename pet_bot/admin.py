@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Pet
+from .models import Pet, Task
 
 admin.site.site_title = 'PetBot Admin'
 admin.site.site_header = 'PetBot Admin'
@@ -8,4 +8,9 @@ admin.site.site_header = 'PetBot Admin'
 class PetAdmin(admin.ModelAdmin):
     model = Pet
 
+class TaskAdmin(admin.ModelAdmin):
+    model = Task
+    save_as = True
+
 admin.site.register(Pet)
+admin.site.register(Task)
