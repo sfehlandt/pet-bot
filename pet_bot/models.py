@@ -1,14 +1,16 @@
 from django.db import models
 from django.utils import timezone
 from enum import Enum
+import random
 
 # Create your models here.
 NAME_VERBOSE      = 'nombre'
 OWNER_VERBOSE     = 'dueño'
 CREDITS_VERBOSE   = 'créditos'
 STATUS_VERBOSE    = 'estado'
-HAPPINESS_VERBOSE = 'felicidaad'
 SPECIES_VERBOSE   = 'especie'
+AVAILABLE_VERBOSE = 'disponibles'
+REQUIRED_VERBOSE  = 'necesitados'
 
 DESCRIPTION_VERBOSE = 'descripción'
 DEADLINE_VERBOSE    = 'plazo'
@@ -32,14 +34,14 @@ class Pet(models.Model):
     SAD     = 7
 
     STATE_CHOICES = (
-        (OK      , 'ok' ),
-        (BORED   , 'aburrido' ),
-        (HUNGRY  , 'hambriento' ),
-        (COLD    , 'con frío' ),
-        (DIRTY   , 'sucio' ),
-        (SICK    , 'enfermo' ),
-        (INJURED , 'herido' ),
-        (SAD     , 'triste' ),
+        (OK      , 'Ok' ),
+        (BORED   , 'Aburrido' ),
+        (HUNGRY  , 'Hambriento' ),
+        (COLD    , 'Con frío' ),
+        (DIRTY   , 'Sucio' ),
+        (SICK    , 'Enfermo' ),
+        (INJURED , 'Herido' ),
+        (SAD     , 'Triste' ),
     )
 
     name = models.CharField(max_length=30, verbose_name=NAME_VERBOSE)
@@ -48,14 +50,31 @@ class Pet(models.Model):
 
     owner = models.CharField(max_length=15, verbose_name=OWNER_VERBOSE)
 
-    credits = models.IntegerField(default=0, verbose_name=CREDITS_VERBOSE)
+    available_credits = models.IntegerField(default=0, verbose_name=CREDITS_VERBOSE +' '+ AVAILABLE_VERBOSE)
 
     state = models.IntegerField(default=0, choices=STATE_CHOICES, verbose_name=STATUS_VERBOSE)
 
-    happiness = models.IntegerField(default=0, verbose_name=HAPPINESS_VERBOSE)
+    required_credits = models.IntegerField(default=0, verbose_name=CREDITS_VERBOSE +' '+ REQUIRED_VERBOSE)
 
     def __str__(self):
         return self.name + ' ' + self.species + ' (' + self.owner + ')'
+
+    def use_credits(self):
+        if self.state == Pet.OK or self.required_credits > self.available_credits:
+            return False
+        else:
+            self.state = Pet.OK
+            self.available_credits = self.available_credits - self.required_credits
+            self.required_credits = 0
+            self.save()
+            return True
+
+    def random_bad_state(self, credits):
+        states = [x[0] for x in Pet.STATE_CHOICES]
+        states = states[1:]
+        self.state = random.choice(states)
+        self.required_credits = credits
+        self.save()
 
 class Task(models.Model):
 

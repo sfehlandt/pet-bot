@@ -32,6 +32,43 @@ class PetModelTestCase(TestCase):
         self.new_count = Pet.objects.count()
         self.assertEquals(self.old_count - 1, self.new_count, 'The number of Pets did not decrease by 1 after creating the object')
 
+    def test_model_pet_can_use_credits(self):
+        # Arrange:
+        self.pet = Pet.objects.create(**self.pet_data)
+        self.pet.state = Pet.SICK
+        self.pet.available_credits = 300
+        self.pet.required_credits  = 200
+        self.pet.save()
+        # Act:
+        self.pet.use_credits()
+        # Assert:
+        self.assertEquals(self.pet.state, Pet.OK, 'The Pet is not Ok')
+        self.assertEquals(self.pet.required_credits, 0, 'The required credits of the Pet did not become 0')
+        self.assertEquals(self.pet.available_credits, 100, 'The available credits of the Pet did not decrease after using them')
+
+    def test_model_pet_cannot_use_credits(self):
+        # Arrange:
+        self.pet = Pet.objects.create(**self.pet_data)
+        self.pet.state = Pet.SICK
+        self.pet.available_credits = 100
+        self.pet.required_credits  = 200
+        self.pet.save()
+        # Act:
+        self.pet.use_credits()
+        # Assert:
+        self.assertNotEquals(self.pet.state, Pet.OK, 'The Pet is OK after invalid use of credits')
+        self.assertNotEquals(self.pet.required_credits, 0, 'The required credits of the Pet became 0 after invalid use of credits')
+        self.assertEquals(self.pet.available_credits, 100, 'The available credits of the Pet changed after invalid use of credits')
+
+    def test_model_pet_random_bad_state(self):
+        # Arrange:
+        self.pet = Pet.objects.create(**self.pet_data)
+        # Act:
+        self.pet.random_bad_state(100)
+        # Assert:
+        self.assertNotEquals(self.pet.state, Pet.OK, 'The Pet is Ok after invoking a random bad state')
+        self.assertEquals(self.pet.required_credits, 100, 'The required credits of the Pet did not become 100')
+
 
 #-------------------------------------------------------
 #-------------------------TASK--------------------------

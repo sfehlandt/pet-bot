@@ -1,21 +1,12 @@
 from django.utils import timezone
 
 PET_DATA = {
-    'name'     : 'Smelly',
-    'species'  : 'Cat',
-    'owner'    : 'Owned',
-    'credits'  : 300,
-    'state'    : 0,
-    'happiness': 0,
-}
-
-PET_DATA_2 = {
-    'name'     : 'Stinky',
-    'species'  : 'Cat',
-    'owner'    : 'Owned',
-    'credits'  : 100,
-    'status'   : 0,
-    'happiness': 0,
+    'name'               : 'Smelly',
+    'species'            : 'Cat',
+    'owner'              : 'Owned',
+    'available_credits'  : 0,
+    'state'              : 0,
+    'required_credits'   : 0,
 }
 
 TASK_DATA = {
