@@ -5,7 +5,7 @@ PET_DATA = {
     'species'  : 'Cat',
     'owner'    : 'Owned',
     'credits'  : 300,
-    'status'   : 0,
+    'state'    : 0,
     'happiness': 0,
 }
 

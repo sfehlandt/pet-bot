@@ -22,6 +22,26 @@ class Pet(models.Model):
        verbose_name = 'Mascota'
        verbose_name_plural = 'Mascotas'
 
+    OK      = 0
+    BORED   = 1
+    HUNGRY  = 2
+    COLD    = 3
+    DIRTY   = 4
+    SICK    = 5
+    INJURED = 6
+    SAD     = 7
+
+    STATE_CHOICES = (
+        (OK      , 'ok' ),
+        (BORED   , 'aburrido' ),
+        (HUNGRY  , 'hambriento' ),
+        (COLD    , 'con frío' ),
+        (DIRTY   , 'sucio' ),
+        (SICK    , 'enfermo' ),
+        (INJURED , 'herido' ),
+        (SAD     , 'triste' ),
+    )
+
     name = models.CharField(max_length=30, verbose_name=NAME_VERBOSE)
 
     species = models.CharField(max_length=30, verbose_name=SPECIES_VERBOSE)
@@ -30,7 +50,7 @@ class Pet(models.Model):
 
     credits = models.IntegerField(default=0, verbose_name=CREDITS_VERBOSE)
 
-    status = models.IntegerField(default=0, verbose_name=STATUS_VERBOSE)
+    state = models.IntegerField(default=0, choices=STATE_CHOICES, verbose_name=STATUS_VERBOSE)
 
     happiness = models.IntegerField(default=0, verbose_name=HAPPINESS_VERBOSE)
 
