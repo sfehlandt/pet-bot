@@ -3,7 +3,8 @@ from django.utils import timezone
 PET_DATA = {
     'name'               : 'Smelly',
     'species'            : 'Cat',
-    'owner'              : 'Owned',
+    'owner_name'         : 'Owned',
+    'owner_id'           : '321642321354',
     'available_credits'  : 0,
     'state'              : 0,
     'required_credits'   : 0,

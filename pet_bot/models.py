@@ -48,7 +48,9 @@ class Pet(models.Model):
 
     species = models.CharField(max_length=30, verbose_name=SPECIES_VERBOSE)
 
-    owner = models.CharField(max_length=15, verbose_name=OWNER_VERBOSE)
+    owner_name = models.CharField(max_length=15, verbose_name=OWNER_VERBOSE)
+
+    owner_id = models.BigIntegerField(verbose_name=OWNER_VERBOSE + '_id')
 
     available_credits = models.IntegerField(default=0, verbose_name=CREDITS_VERBOSE +' '+ AVAILABLE_VERBOSE)
 
@@ -57,7 +59,7 @@ class Pet(models.Model):
     required_credits = models.IntegerField(default=0, verbose_name=CREDITS_VERBOSE +' '+ REQUIRED_VERBOSE)
 
     def __str__(self):
-        return self.name + ' ' + self.species + ' (' + self.owner + ')'
+        return self.name + ' ' + self.species + ' (' + self.owner_name + ')'
 
     def use_credits(self):
         if self.state == Pet.OK or self.required_credits > self.available_credits:
