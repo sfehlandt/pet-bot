@@ -23,11 +23,8 @@ def start_task(owner_id, task_id):
     task = find_task(task_id)
     if task.status != Task.PENDING:
         return 'No se puede comenzar la tarea '+ task.name +' ya que no se encuentra pendiente'
-    elif task.pet:
-        if task.pet != pet:
-            return 'No se puede comenzar la tarea '+ task.name +' ya que se encuentra tomada por el usuario '+ task.pet.name
-        else:
-            return 'La tarea '+ task.name +' ya se encuentra tomada por este usuario'
+    elif task.pet and  task.pet != pet:
+        return 'No se puede comenzar la tarea '+ task.name +' ya que se encuentra tomada por el usuario '+ task.pet.name
     else:
         task.pet = pet
         task.mark_as_doing()
