@@ -95,7 +95,7 @@ class ControllerTestCase(TestCase):
 
     def test_pet_status(self):
         # Assert:
-        self.assertEquals(self.pet.state, pet_status(self.owner_id))
+        self.assertEquals(Pet.VERBOSE_STATE[self.pet.state], pet_status(self.owner_id))
 
     def tests_my_credits(self):
         # Assert:

@@ -33,16 +33,18 @@ class Pet(models.Model):
     INJURED = 6
     SAD     = 7
 
-    STATE_CHOICES = (
-        (OK      , 'Ok' ),
-        (BORED   , 'Aburrido' ),
-        (HUNGRY  , 'Hambriento' ),
-        (COLD    , 'Con frío' ),
-        (DIRTY   , 'Sucio' ),
-        (SICK    , 'Enfermo' ),
-        (INJURED , 'Herido' ),
-        (SAD     , 'Triste' ),
-    )
+    VERBOSE_STATE = {
+        OK      : 'Ok',
+        BORED   : 'Aburrido',
+        HUNGRY  : 'Hambriento',
+        COLD    : 'Con frío',
+        DIRTY   : 'Sucio',
+        SICK    : 'Enfermo',
+        INJURED : 'Herido',
+        SAD     : 'Triste',
+    }
+
+    STATE_CHOICES = VERBOSE_STATE.items()
 
     name = models.CharField(max_length=30, verbose_name=NAME_VERBOSE)
 

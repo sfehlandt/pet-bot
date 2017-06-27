@@ -53,7 +53,8 @@ def free_tasks(owner_id = None):
 
 def pet_status(owner_id):
     pet  = find_pet(owner_id)
-    return pet.state
+    state = Pet.VERBOSE_STATE[pet.state]
+    return state
 
 def my_credits(owner_id):
     pet = find_pet(owner_id)
