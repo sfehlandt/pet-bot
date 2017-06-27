@@ -78,6 +78,10 @@ class Pet(models.Model):
         self.required_credits = credits
         self.save()
 
+    def my_tasks(self):
+        tasks = list(self.tasks.all())
+        return tasks
+
 class Task(models.Model):
 
     class Meta:
