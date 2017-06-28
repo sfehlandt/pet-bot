@@ -19,14 +19,44 @@ class SingletonTelegramBot:
         print(content_type, chat_type, chat_id)
 
         if content_type == 'text':
-            if "/mytasks"in msg['text']
-                bot.sendMessage(chat_id, mytasks(chat_id))
+            task_id = msg['text'].split(" ")[1]
+
+            if "/mytasks" in msg['text']
+                tasks_list = my_tasks(chat_id)
+                msg = "Èstas son tus Tareas actuales:\n\n"
+                template = '''Nombre (id): {} ({})
+                - Descripción: {}
+                - Créditos: {}
+                - Límite: {:%Y-%m-%d %H:%M}
+                '''
+                for task in task_list:
+                    msg += template.format(task.name, task.id, task.description, task.credits, task.deadline)
+                bot.sendMessage(chat_id, msg)
+
             elif "/starttask" in msg['text']
-                task_id = msg['text'].split(" ")[1]
                 bot.sendMessage(chat_id, start_task(chat_id, task_id))
+
             elif "/finishtask" in msg['text']
-                task_id = msg['text'].split(" ")[1]
                 bot.sendMessage(chat_id, finish_task(chat_id, task_id))
+
+            elif "/mycredits" in msg['text']
+                bot.sendMessage(chat_id, 'Tienes {} créditos'.format(str(my_credits(chat_id))))
+
+            elif "/usecredits" in msg['text']
+                bot.sendMessage(chat_id, use_credits(chat_id))
+
+            elif "/freetasks" in msg['text']
+                tasks_list = free_tasks(chat_id)
+                msg = "Las Tareas disponibles son las siguientes:\n\n"
+                template = '''Nombre (id): {} ({})
+                - Descripción: {}
+                - Créditos: {}
+                - Límite: {:%Y-%m-%d %H:%M}
+                '''
+                for task in task_list:
+                    msg += template.format(task.name, task.id, task.description, task.credits, task.deadline
+                bot.sendMessage(chat_id, msg)
+
 
     TOKEN = '391521158:AAFilAONR14D5N1CJrguMvbakVhbY7nHUdo'
 
@@ -54,4 +84,3 @@ def db(request):
     greetings = Greeting.objects.all()
 
     return render(request, 'db.html', {'greetings': greetings})
-
