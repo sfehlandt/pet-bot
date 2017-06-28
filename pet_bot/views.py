@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from controller import *
 
 from .models import Greeting
 
@@ -18,7 +19,14 @@ class SingletonTelegramBot:
         print(content_type, chat_type, chat_id)
 
         if content_type == 'text':
-            bot.sendMessage(chat_id, msg['text'])
+            if "/mytasks"in msg['text']
+                bot.sendMessage(chat_id, mytasks(chat_id))
+            elif "/starttask" in msg['text']
+                task_id = msg['text'].split(" ")[1]
+                bot.sendMessage(chat_id, start_task(chat_id, task_id))
+            elif "/finishtask" in msg['text']
+                task_id = msg['text'].split(" ")[1]
+                bot.sendMessage(chat_id, finish_task(chat_id, task_id))
 
     TOKEN = '391521158:AAFilAONR14D5N1CJrguMvbakVhbY7nHUdo'
 
