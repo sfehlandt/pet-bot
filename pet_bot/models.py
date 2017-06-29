@@ -80,6 +80,9 @@ class Pet(models.Model):
         self.required_credits = credits
         self.save()
 
+    def get_state(self):
+        return VERBOSE_STATE[self.state]
+
     def my_tasks(self):
         tasks = list(self.tasks.all())
         return tasks

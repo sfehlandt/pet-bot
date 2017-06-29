@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 """
 Django settings for gettingstarted project, on Heroku. For more info, see:
 https://github.com/heroku/heroku-django-template
@@ -11,7 +13,21 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 import os
 import dj_database_url
+import datetime
 
+from celery.schedules import crontab
+
+import djcelery
+djcelery.setup_loader()
+
+
+
+CELERYBEAT_SCHEDULE = {
+    'check-tasks': {
+        'task': 'pet_bot.tasks.check_tasks',
+        'schedule': datetime.timedelta(seconds=30),
+    },
+}
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -37,8 +53,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'djcelery',
     'pet_bot'
 )
+
+CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
