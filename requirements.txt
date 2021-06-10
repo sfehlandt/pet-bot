@@ -2,7 +2,7 @@ aiohttp==2.2.0
 async-timeout==1.2.1
 chardet==3.0.4
 dj-database-url==0.4.1
-Django==1.9.7
+Django==2.2.24
 gunicorn==19.6.0
 multidict==2.1.6
 psycopg2==2.6.2
